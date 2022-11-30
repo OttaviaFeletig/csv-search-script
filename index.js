@@ -11,12 +11,27 @@ const stringToDate = (date) => {
   );
 };
 
+const findData = (path, column, key) => {
+  const readStream = fs.createReadStream(path);
+  readStream.pipe(parse({ delimiter: ",", from_line: 1 })).on("data", (row) => {
+    console.log("row", row);
+    console.log("row[column]", row[column]);
+    console.log("key", key);
+  });
+  readStream.on("end", () => {
+    console.log("finished");
+  });
+  readStream.on("error", (error) => {
+    console.log(error.message);
+  });
+};
+
 const readInput = () => {
   if (argv.length === 5) {
     const path = argv[2];
     const column = parseInt(argv[3]);
     const key = column === 3 ? stringToDate(argv[4]) : argv[4];
-    console.log(path, column, key);
+    findData(path, column, key);
   } else {
     console.log("Incorrect input");
   }
