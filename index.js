@@ -10,6 +10,9 @@ const stringToDate = (date) => {
     parseInt(splitDate[0]) + 1
   );
 };
+const dateToString = (date) => {
+  return `${date.getDate() - 1}/${date.getMonth() + 1}/${date.getFullYear()}`;
+};
 const checkIsDate = (date) => {
   if (Object.prototype.toString.call(date) === "[object Date]") {
     return true;
@@ -31,7 +34,13 @@ const findData = (path, column, key) => {
     }
   });
   readStream.on("end", () => {
-    console.log(filteredData);
+    filteredData.length > 0
+      ? console.log(filteredData.join("\r\n"))
+      : console.log(
+          `No record was found for input: ${column} ${
+            checkIsDate(key) ? dateToString(key) : key
+          }`
+        );
   });
   readStream.on("error", (error) => {
     console.log(error.message);
