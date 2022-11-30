@@ -20,6 +20,17 @@ const checkIsDate = (date) => {
     false;
   }
 };
+
+const printResult = (filteredData, column, key) => {
+  filteredData.length > 0
+    ? console.log(filteredData.join("\r\n"))
+    : console.log(
+        `No record was found for input: ${column} ${
+          checkIsDate(key) ? dateToString(key) : key
+        }`
+      );
+};
+
 const findData = (path, column, key) => {
   const filteredData = [];
   const readStream = fs.createReadStream(path);
@@ -34,13 +45,7 @@ const findData = (path, column, key) => {
     }
   });
   readStream.on("end", () => {
-    filteredData.length > 0
-      ? console.log(filteredData.join("\r\n"))
-      : console.log(
-          `No record was found for input: ${column} ${
-            checkIsDate(key) ? dateToString(key) : key
-          }`
-        );
+    printResult(filteredData, column, key);
   });
   readStream.on("error", (error) => {
     console.log(error.message);
