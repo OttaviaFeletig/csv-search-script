@@ -1,0 +1,14 @@
+{
+  "name": "csv-search-script",
+  "version": "1.0.0",
+  "description": "Simple csv search",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ottavia Feletig",
+  "license": "ISC",
+  "dependencies": {
+    "csv-parse": "^5.3.3"
+  }
+}
