@@ -10,16 +10,28 @@ const stringToDate = (date) => {
     parseInt(splitDate[0]) + 1
   );
 };
-
+const checkIsDate = (date) => {
+  if (Object.prototype.toString.call(date) === "[object Date]") {
+    return true;
+  } else {
+    false;
+  }
+};
 const findData = (path, column, key) => {
+  const filteredData = [];
   const readStream = fs.createReadStream(path);
   readStream.pipe(parse({ delimiter: ",", from_line: 1 })).on("data", (row) => {
-    console.log("row", row);
-    console.log("row[column]", row[column]);
-    console.log("key", key);
+    if (
+      (checkIsDate(key) &&
+        column === 3 &&
+        stringToDate(row[column]).getTime() === key.getTime()) ||
+      row[column] === key
+    ) {
+      filteredData.push(row);
+    }
   });
   readStream.on("end", () => {
-    console.log("finished");
+    console.log(filteredData);
   });
   readStream.on("error", (error) => {
     console.log(error.message);
