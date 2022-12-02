@@ -17,7 +17,7 @@ const checkIsDate = (date) => {
   if (Object.prototype.toString.call(date) === "[object Date]") {
     return true;
   } else {
-    false;
+    return false;
   }
 };
 
